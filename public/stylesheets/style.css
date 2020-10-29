@@ -168,3 +168,12 @@ body {
     -moz-box-shadow: 0 0 0 20px rgba(204, 49, 44, 0);
   }
 }
+#copyright{
+  position: absolute;
+  font-size: 12px;
+  text-align: start;
+  font-weight: bolder;
+  z-index: 2;
+  bottom: 15px;
+  left: 9px;
+}
