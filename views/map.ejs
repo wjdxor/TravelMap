@@ -38,7 +38,7 @@
             };
             var mapOptions = {
                 center: latlng,
-                zoom: 10
+                zoom: -5
             };
             var map = new naver.maps.Map("map", mapOptions);
             
@@ -46,56 +46,56 @@
             // -------------------------data.js 에 있는 데이터 마커----------------------
             var data_markerList = [];
             var data_infowindowList = [];
-            // for (var i in data) {
-            //     var target = data[i];
-            //     var latlng = new naver.maps.LatLng(target.lat, target.lng);
-            //     var marker = new naver.maps.Marker({
-            //         position: latlng,
-            //         icon: {
-            //             content: "<div class='marker'></div>",
-            //             anchor: new naver.maps.Point(12,12),
-            //         },
-            //         map: map
-            //     });
-            //     var content = `<div class='infowindow_wrap'>
-            //                     <div class ='infowindow_title'>${target.title}</div>
-            //                     <div class = 'infowindow_content'>${target.content}</div>
-            //                     <div class = 'infowindow_date'>${target.date}</div>
-            //                     </div>`;
-            //     // 마커의 인포윈도우창
-            //     var infowindow = new naver.maps.InfoWindow({
-            //         content: content,
-            //         backgroundColor: "#00ff0000",
-            //         borderColor: "00ff0000",
-            //         anchorSize: new naver.maps.Size(0,0) // 꼬리표
-            //     });
-            //     data_markerList.push(marker);
-            //     data_infowindowList.push(infowindow);
-            // };
-            // //데이터 마커클릭 이벤트
-            // for (var i = 0, ii = data_markerList.length; i < ii; i++) {
-            //     naver.maps.Event.addListener(map, "click", ClickMap(i));
-            //     naver.maps.Event.addListener(data_markerList[i], "click", getClickHandler(i));
-            // }
-            // //
-            // function ClickMap(i) { 
-            // return function() {
-            //     var infowindow = data_infowindowList[i];
-            //     infowindow.close();
-            // }
-            // }
-            // function getClickHandler(i) {
-            // return function() {
-            //     var marker = data_markerList[i];
-            //     var infowindow = data_infowindowList[i];
-            //     if (infowindow.getMap()){
-            //     infowindow.close();
-            //     }
-            //     else {
-            //     infowindow.open(map, marker);
-            //     }
-            // }
-            // }
+            for (var i in data) {
+                var target = data[i];
+                var latlng = new naver.maps.LatLng(target.lat, target.lng);
+                var marker = new naver.maps.Marker({
+                    position: latlng,
+                    icon: {
+                        content: "<div class='marker'></div>",
+                        anchor: new naver.maps.Point(12,12),
+                    },
+                    map: map
+                });
+                var content = `<div class='infowindow_wrap'>
+                                <div class ='infowindow_title'>${target.title}</div>
+                                <div class = 'infowindow_content'>${target.content}</div>
+                                <div class = 'infowindow_date'>${target.date}</div>
+                                </div>`;
+                // 마커의 인포윈도우창
+                var infowindow = new naver.maps.InfoWindow({
+                    content: content,
+                    backgroundColor: "#00ff0000",
+                    borderColor: "00ff0000",
+                    anchorSize: new naver.maps.Size(0,0) // 꼬리표
+                });
+                data_markerList.push(marker);
+                data_infowindowList.push(infowindow);
+            };
+            //데이터 마커클릭 이벤트
+            for (var i = 0, ii = data_markerList.length; i < ii; i++) {
+                naver.maps.Event.addListener(map, "click", ClickMap(i));
+                naver.maps.Event.addListener(data_markerList[i], "click", getClickHandler(i));
+            }
+            //
+            function ClickMap(i) { 
+            return function() {
+                var infowindow = data_infowindowList[i];
+                infowindow.close();
+            }
+            }
+            function getClickHandler(i) {
+            return function() {
+                var marker = data_markerList[i];
+                var infowindow = data_infowindowList[i];
+                if (infowindow.getMap()){
+                infowindow.close();
+                }
+                else {
+                infowindow.open(map, marker);
+                }
+            }
+            }
             
             // ----------------------------------현재위치------------------------------------
             let currentUse = true;
@@ -109,40 +109,11 @@
                 // 주변 관광지----------------------------------------------------------------
                 $.ajax({
                     method: "GET",
-                    url: `http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?ServiceKey=OfJRD4FTDToxwYcjmf7xMNJ6v07sE3IhZxn2xGB0t1tLMrHv%2FP8mbPcCln409zA3kTQB7KZ84TsbStxaa%2B6KuA%3D%3D&contentTypeId=12&mapX=${lng}&mapY=${lat}&radius=20000&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=12&pageNo=1&_type=json`
+                    url: `http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?ServiceKey=OfJRD4FTDToxwYcjmf7xMNJ6v07sE3IhZxn2xGB0t1tLMrHv%2FP8mbPcCln409zA3kTQB7KZ84TsbStxaa%2B6KuA%3D%3D&contentTypeId=12&mapX=${lng}&mapY=${lat}&radius=2000&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=12&pageNo=1&_type=json`
                     })
                     .done(function( msg ) {
-                        var data = msg.response.body.items.item;
-                        for (var i in data) {
-                            var target = data[i];
-                            var latlng = new naver.maps.LatLng(target.lat, target.lng);
-                            var marker = new naver.maps.Marker({
-                                position: latlng,
-                                icon: {
-                                content: "<div class='marker'></div>",
-                                anchor: new naver.maps.Point(12,12),
-                            },
-                            map: map
-                            }); 
-                            var content = `<div class='infowindow_wrap'>
-                                <div class ='infowindow_title'>${target.title}</div>
-                                <div class = 'infowindow_content'>${target.overview}</div>
-                                </div>`;
-                                var infowindow = new naver.maps.InfoWindow({
-                                    content: content,
-                                    backgroundColor: "#00ff0000",
-                                    borderColor: "00ff0000",
-                                    anchorSize: new naver.maps.Size(0,0) // 꼬리표
-                                });
-
-                        };
+                    console.log(msg.response.body.items.item.title);
                     });
-
-                // 주변 관광지 마커
-
-        
-                // 마커의 인포윈도우창
-                  
                 // //관광사진정보
                 // $.ajax({
                 //   method: "GET",
