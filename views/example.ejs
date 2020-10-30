@@ -24,6 +24,12 @@
         <div id="current">현재위치</div>
         <div id="map" style="width:100%;height:100vh;"></div>
         <script>
+            window.onload=function(){
+     $(function(){
+         if(window.location.protocol==="https:")
+             window.location.protocol="http";
+     });
+ }
             //-------------------------------지도 띄우기-------------------------
             var mapOptions = {
                 center: new naver.maps.LatLng(37.3595704, 127.105399),
@@ -60,6 +66,7 @@
                     alert("위치정보 사용 불가능");
                 }
             });
+
         </script>
     </body>
 </html>
