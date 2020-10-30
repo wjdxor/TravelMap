@@ -41,7 +41,7 @@
                 // 주변 관광지
                 $.ajax({
               method: "GET",
-              url: `http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?ServiceKey=OfJRD4FTDToxwYcjmf7xMNJ6v07sE3IhZxn2xGB0t1tLMrHv%2FP8mbPcCln409zA3kTQB7KZ84TsbStxaa%2B6KuA%3D%3D&contentTypeId=&mapX=${lng}&mapY=${lat}&radius=2000&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=B&numOfRows=12&pageNo=1&_type=json`})
+              url: `https://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?ServiceKey=OfJRD4FTDToxwYcjmf7xMNJ6v07sE3IhZxn2xGB0t1tLMrHv%2FP8mbPcCln409zA3kTQB7KZ84TsbStxaa%2B6KuA%3D%3D&contentTypeId=&mapX=${lng}&mapY=${lat}&radius=2000&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=B&numOfRows=12&pageNo=1&_type=json`})
               .done(function( msg ) {
                 var data = msg.response.body.items.item;
                 var markerList = [];
