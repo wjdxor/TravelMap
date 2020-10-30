@@ -24,13 +24,42 @@
         <div id="current">현재위치</div>
         <div id="map" style="width:100%;height:100vh;"></div>
         <script>
-            $.ajax({
-                method: "GET",
-                url: `http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?ServiceKey=OfJRD4FTDToxwYcjmf7xMNJ6v07sE3IhZxn2xGB0t1tLMrHv%2FP8mbPcCln409zA3kTQB7KZ84TsbStxaa%2B6KuA%3D%3D&contentTypeId=&mapX=126.981106&mapY=37.568477&radius=2000&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=B&numOfRows=12&pageNo=1&_type=json`
-            }).done(function( msg ) {
-                console.log(msg)
+            //-------------------------------지도 띄우기-------------------------
+            var mapOptions = {
+                center: new naver.maps.LatLng(37.3595704, 127.105399),
+                zoom: 7
+            };
+            var map = new naver.maps.Map("map", mapOptions);
+            // ----------------------------------현재위치------------------------------------
+            
+            $('#current').click(()=> {
+                if('geolocation' in navigator) {
+                    navigator.geolocation.getCurrentPosition( function(position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        const latlng = new naver.maps.LatLng(lat, lng);
+                        marker = new naver.maps.Marker({
+                            map: map,
+                            position: latlng,
+                            icon: {
+                                content: '<img class="pulse" draggable="false" unselectable="on" src="https://myfirstmap.s3.ap-northeast-2.amazonaws.com/circle.png" >',
+                                anchor: new naver.maps.Point(11,11)
+                            }
+                        });
+                        map.setZoom(14, false);
+                        map.panTo(latlng);
+                        $.ajax({
+                            method: "GET",
+                            url: `http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?ServiceKey=OfJRD4FTDToxwYcjmf7xMNJ6v07sE3IhZxn2xGB0t1tLMrHv%2FP8mbPcCln409zA3kTQB7KZ84TsbStxaa%2B6KuA%3D%3D&contentTypeId=12&mapX=${lng}&mapY=${lat}&radius=20000&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=12&pageNo=1`
+                        })
+                        .done(function( msg ) {
+                            console.log(msg);
+                        });
+                    });
+                } else {
+                    alert("위치정보 사용 불가능");
                 }
-            );
+            });
         </script>
     </body>
 </html>

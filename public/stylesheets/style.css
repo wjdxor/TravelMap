@@ -75,7 +75,7 @@ body {
 
 #current {
   position: absolute;
-  top: 120px;
+  top: 112px;
   z-index: 10000;
   background: white;
   left: 10px;
