@@ -30,7 +30,6 @@
                 zoom: 7
             };
             var map = new naver.maps.Map("map", mapOptions);
-
             // ----------------------------------현재위치------------------------------------
             let currentUse = true;
             $('#current').click(()=>{
@@ -41,25 +40,61 @@
                 const latlng = new naver.maps.LatLng(lat, lng);
                 // 주변 관광지
                 $.ajax({
-                    method: "GET",
-                    url: `https://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?ServiceKey=OfJRD4FTDToxwYcjmf7xMNJ6v07sE3IhZxn2xGB0t1tLMrHv%2FP8mbPcCln409zA3kTQB7KZ84TsbStxaa%2B6KuA%3D%3D&contentTypeId=12&mapX=${lng}&mapY=${lat}&radius=2000&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=12&pageNo=1&_type=json`})
-                    .done(function( msg ) {
-                    });
-                // //관광사진정보
-                // $.ajax({
-                //   method: "GET",
-                //   url: `http://api.visitkorea.or.kr/openapi/service/rest/PhotoGalleryService/galleryList?ServiceKey=OfJRD4FTDToxwYcjmf7xMNJ6v07sE3IhZxn2xGB0t1tLMrHv%2FP8mbPcCln409zA3kTQB7KZ84TsbStxaa%2B6KuA%3D%3D&arrange=A&MobileOS=ETC&MobileApp=AppTesting&numOfRows=5&_type=json`
-                //   })
-                //   .done(function( msg ) {
-                //     // alert( "Data Saved: " + msg );
-                //     var data = msg.response.body.items.item;
-                
-                //     for (var i in data) {
-                //       var target = data[i];
-                //       console.log(target.galContentId);
-                //     }
-                //   });
-
+              method: "GET",
+              url: `http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?ServiceKey=OfJRD4FTDToxwYcjmf7xMNJ6v07sE3IhZxn2xGB0t1tLMrHv%2FP8mbPcCln409zA3kTQB7KZ84TsbStxaa%2B6KuA%3D%3D&contentTypeId=&mapX=${lng}&mapY=${lat}&radius=2000&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=B&numOfRows=12&pageNo=1&_type=json`})
+              .done(function( msg ) {
+                var data = msg.response.body.items.item;
+                var markerList = [];
+                var infowindowList = [];
+                for (var i in data) {
+                  var target = data[i];
+                  var latlng = new naver.maps.LatLng(target.mapy, target.mapx);
+                  var marker = new naver.maps.Marker({
+                      position: latlng,
+                      icon: {
+                      content: "<div class='marker'></div>",
+                      anchor: new naver.maps.Point(12,12),
+                      },
+                  map: map
+                  }); 
+                  var content = `<div class='infowindow_wrap'>
+                                <div class ='infowindow_title'>${target.title}</div>
+                                <div class = 'infowindow_content'>${target.overview}</div>
+                                </div>`;
+                  var infowindow = new naver.maps.InfoWindow({
+                                      content: content,
+                                      backgroundColor: "#00ff0000",
+                                      borderColor: "00ff0000",
+                                      anchorSize: new naver.maps.Size(0,0) // 꼬리표
+                                  });
+                                  markerList.push(marker);
+                  infowindowList.push(infowindow);
+                  //데이터 마커클릭 이벤트
+                  for (var i = 0, ii = markerList.length; i < ii; i++) {
+                      naver.maps.Event.addListener(map, "click", ClickMap(i));
+                      naver.maps.Event.addListener(markerList[i], "click", getClickHandler(i));
+                  }
+                  function ClickMap(i) { 
+                  return function() {
+                      var infowindow = infowindowList[i];
+                      infowindow.close();
+                  }
+                  }
+                  function getClickHandler(i) {
+                  return function() {
+                      var marker = markerList[i];
+                      var infowindow = infowindowList[i];
+                      if (infowindow.getMap()){
+                      infowindow.close();
+                      }
+                      else {
+                      infowindow.open(map, marker);
+                      }
+                  }
+                  }
+                  
+                };
+              });
                 if (currentUse) {  
                     var marker = new naver.maps.Marker({
                         map: map,
@@ -78,7 +113,8 @@
                 alert("위치정보 사용 불가능");
             }
             });
-            //검색기능
+
+            //-------------------------검색기능------------------------------------------------
             let ps = new kakao.maps.services.Places();
             let search_arr = []
             $("#search_input").on("keydown",function(e){

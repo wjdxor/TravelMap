@@ -27,7 +27,6 @@
       <div>지도: 네이버맵API</div>
       <div>목적지검색: 카카오API</div>
       <div>데이터: 한국관광공사</div>
-
     </div>
     <script>  
       var mapOptions = {
@@ -35,7 +34,6 @@
           zoom: 10
       };
       var map = new naver.maps.Map("map", mapOptions);
-      
       
       // data.js 에 있는 데이터 마크하기
       // for (var i in data) {
@@ -98,11 +96,9 @@
             const lng = position.coords.longitude;
             const latlng = new naver.maps.LatLng(lat, lng);
             // 주변 관광지
-            
-
             $.ajax({
               method: "GET",
-              url: `https://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?ServiceKey=OfJRD4FTDToxwYcjmf7xMNJ6v07sE3IhZxn2xGB0t1tLMrHv%2FP8mbPcCln409zA3kTQB7KZ84TsbStxaa%2B6KuA%3D%3D&contentTypeId=12&mapX=${lng}&mapY=${lat}&radius=20000&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=12&pageNo=1&_type=json`})
+              url: `http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?ServiceKey=OfJRD4FTDToxwYcjmf7xMNJ6v07sE3IhZxn2xGB0t1tLMrHv%2FP8mbPcCln409zA3kTQB7KZ84TsbStxaa%2B6KuA%3D%3D&contentTypeId=&mapX=${lng}&mapY=${lat}&radius=2000&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=B&numOfRows=12&pageNo=1&_type=json`})
               .done(function( msg ) {
                 var data = msg.response.body.items.item;
                 var markerList = [];
