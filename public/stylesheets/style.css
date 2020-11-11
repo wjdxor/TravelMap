@@ -43,14 +43,14 @@ body {
   font-weight: bolder;
 }
 
-.marker {
+/* .marker {
   border: 1px solid black;
   background: green;
   opacity: 0.8;
   width: 24px;
   height: 24px;
   border-radius: 50%;
-}
+} */
 
 .infowindow_wrap{
   background: white;
@@ -67,12 +67,38 @@ body {
   font-size: 13px;
   font-weight: normal;
 }
+/* 인포윈도우 사진 슬라이드 */
+* {box-sizing:border-box}
 
-.infowindow_date {
-  font-size: 13px;
-  font-weight: normal;
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
 }
 
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/*  */
 #current {
   position: absolute;
   top: 112px;
@@ -137,7 +163,9 @@ body {
 .search_input:focus {
   outline: none;
 }
-
+.fit-picture {
+  width: 250px;
+}
 /* 시간대별로 나타나기 */
 @keyframes pulse {
   0% {
@@ -176,4 +204,46 @@ body {
   z-index: 2;
   bottom: 15px;
   left: 9px;
+}
+#refresh {
+  position: absolute;
+  top: 112px;
+  z-index: 10000;
+  background: white;
+  right: 10px;
+  padding: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 25px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bolder;
+}
+.searchmarker {
+  display: block;
+  width: 28px;
+  height: 40px;
+  /* border-radius: 50%; */
+  cursor: pointer;
+}
+.toursitmarker {
+  display: block;
+  width: 28px;
+  height: 32px;
+  /* border-radius: 50%; */
+  cursor: pointer;
+}
+.clickmarker {
+  display: block;
+  width: 28px;
+  height: 40px;
+  cursor: pointer;
+  box-shadow: 0 0 0 rgb(0, 0, 255);
+  /* animation: pulse 1.7s infinite;  */
+}
+
+@-webkit-keyframes clickmarker {
+  100% {
+    box-shadow: 0 0 0 20px rgba(95, 98, 233, 0);
+    -moz-box-shadow: 0 0 0 20px rgba(95, 98, 233, 0);
+  }
 }

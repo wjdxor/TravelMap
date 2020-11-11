@@ -10,7 +10,11 @@ router.get('/map', function(req, res, next) {
   res.render('map', { title: 'TravelMap' });
 });
 /* practice page. */
-router.get('/test', function(req, res, next) {
-  res.render('example', { title: 'test' });
+router.get('/viewpictures', function(req, res, next) {
+  res.render('viewpictures', { title: 'viewPictures' });
 });
+
+// router.get('/test/:contentId', function(req, res, next) {
+//   res.render('test', { title: 'test' });
+// });
 module.exports = router;
